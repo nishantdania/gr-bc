@@ -9,6 +9,7 @@ var stripe = require("stripe")("sk_test_3WJqrtRKXgtC3m3jd6jtB0PV");
 var async = require("async");
 
 function addUserToStripe(user, callback) {
+	var stripe = require("stripe")("sk_test_3WJqrtRKXgtC3m3jd6jtB0PV");
 	stripe.accounts.create(
 	{
 		country: "US",
@@ -77,7 +78,13 @@ module.exports = {
 		User.findOne({username : req.token.username}, function (err, user) {
 			if (err) res.json(err.status, {err: err});
 			else if (user) {
-				res.json(200, {coupons: user.coupons});
+				var stripe = require("stripe")(user.stripe_secret);
+				stripe.coupons.list(
+					{},
+					function(err, coupons) {
+						res.json(200, {coupons: coupons});
+					}
+				);
 			}
 			else {
 				res.json(403, {err: 'User not found'});

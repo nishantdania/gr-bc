@@ -30,8 +30,7 @@ function addCouponToStripe(user, req, callback) {
 
 function addCouponToDb(req, coupon, callback) {
 	if (coupon) {
-		var newId = coupon.id + ' ' + req.token.username;
-		Coupons.create({couponId: newId}, function (err, result) {
+		Coupons.create({couponId: coupon.id}, function (err, result) {
 			if (err) return callback(err, null);
 			else if (result) {
 				callback(null, req, coupon);
@@ -61,35 +60,34 @@ function updateUser(req, coupon, callback) {
 
 module.exports = {
 	addCoupon: function(req, res) {
-	if (!req.token.username) res.json(403, {err: 'Not Authorized'});
-	else {
-		User.findOne({username: req.token.username}, function (err, user) {
-			if (err) res.json(400, {err: err});
-			else if(user) {
-				async.waterfall([
-						function (callback) {
-							callback(null, user, req);
-						},
-						checkExistingCoupon,
-						addCouponToStripe,
-						addCouponToDb,
-						updateUser
-					], function(err, result) {
-					if (err) res.json(400, {err: err, success: 'false'});
-					else if (result) {
-						res.json(200, {success: true});
-					}
-					else {
-						res.json(400, {err: 'An Error Occurred'});
-					}
-				});
-			}
-			else {
-				res.json(400, {err: 'No user found'});
-			}
-		});
-	}
-
+		if (!req.token.username) res.json(403, {err: 'Not Authorized'});
+		else {
+			User.findOne({username: req.token.username}, function (err, user) {
+				if (err) res.json(400, {err: err});
+				else if(user) {
+					async.waterfall([
+							function (callback) {
+								callback(null, user, req);
+							},
+							checkExistingCoupon,
+							addCouponToStripe,
+							addCouponToDb,
+							updateUser
+						], function(err, result) {
+						if (err) res.json(400, {err: err, success: 'false'});
+						else if (result) {
+							res.json(200, {success: true});
+						}
+						else {
+							res.json(400, {err: 'An Error Occurred'});
+						}
+					});
+				}
+				else {
+					res.json(400, {err: 'No user found'});
+				}
+			});
+		}
 	}	
 };
 
