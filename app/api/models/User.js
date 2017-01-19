@@ -18,10 +18,6 @@ module.exports = {
 	stripe_secret: {
 		type : 'string'
 	},
-	fullname : {
-		type : 'string',
-		required : true
-	},
 	email : {
 		type : 'string',
 		required : true

@@ -65,7 +65,7 @@ module.exports = {
 		updateUserSecret
 	], function(err, result) {
 		if(err) res.json(400, {err: err});	
-		else if(result) res.json(200, {user: result, token: jwt.generate({username: result[0].username})});
+		else if(result) res.json(200, { success: "true", user: result, token: jwt.generate({username: result[0].username})});
 		else {
 			res.json(400, {err: 'An Error Occurred'});
 		}
