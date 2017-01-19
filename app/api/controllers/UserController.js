@@ -18,6 +18,23 @@ module.exports = {
 			res.json(200, {user: user, token: jwt.generate({username: user.username})});
 		}
 	});
-  }	
+  },	
+
+  getCoupons: function (req, res) {
+	if (req.token) {
+		User.findOne({username : req.token.username}, function (err, user) {
+			if (err) res.json(err.status, {err: err});
+			else if (user) {
+				res.json(200, {coupons: user.coupons});
+			}
+			else {
+				res.json(403, {err: 'User not found'});
+			}
+		});
+	}	
+	else {
+		res.json(401, {err: 'Invalid token'});
+	}
+  }
 };
 
