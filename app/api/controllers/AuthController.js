@@ -1,5 +1,5 @@
 module.exports = {
-	authenticate: function (req, res) {
+	login: function (req, res) {
 		var username = req.param('username');
 		var password = req.param('password');
 
