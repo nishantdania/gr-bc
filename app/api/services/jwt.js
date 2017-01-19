@@ -6,7 +6,7 @@ module.exports.generate = function(payload) {
 		payload,
 		tokenSecret, 
 		{
-		  expiresIn : 10000000 
+		  expiresIn : 100000000 
 		}
 	);
 
