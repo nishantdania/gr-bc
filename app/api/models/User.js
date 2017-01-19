@@ -15,6 +15,9 @@ module.exports = {
 		required : true,
 		unique : true
 	},
+	stripe_secret: {
+		type : 'string'
+	},
 	fullname : {
 		type : 'string',
 		required : true

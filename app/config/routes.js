@@ -36,7 +36,8 @@ module.exports.routes = {
 		view: 'homepage'
 	},
 	'POST /signup': 'UserController.create',
-	'GET /coupons': 'UserController.getCoupons'
+	'GET /userCoupons': 'UserController.getCoupons',
+	'POST /addCoupon' : 'CouponsController.addCoupon'
 
   /***************************************************************************
   *                                                                          *
